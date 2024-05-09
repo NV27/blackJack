@@ -65,22 +65,8 @@ function makeDeck() : array{
 
 $cardArray = makeDeck();
 
-function makeValues($card) : int{
-    if (is_int($card)){
-        return $card;
-    }
-    else if ($card == 'A') {
-        return 11;
-    }
-    else{
-        return 10;
-    }
-}
-
 if (isset($_GET['submit'])){
     shuffle($cardArray);
-//    echo '<pre>';
-//    var_dump($cardArray);
     echo '<br> <br>';
     $player1['card1'] = array_shift($cardArray);
     $player1['card2'] = array_shift($cardArray);
@@ -92,11 +78,24 @@ if (isset($_GET['submit'])){
     $player2['score'] = $player2['card1']['value'] + $player2['card2']['value'];
 
 
-    if (($player1['score'] - $player2['score']) > 0){
-        $winner = 'Player 1';
+
+
+    if ((($player1['score'] - $player2['score']) > 0)){
+        if ($player1['score'] <= 21){
+            $winner = 'Player 1';
+        }
+        else{
+            $winner = 'Player 2';
+        }
+
     }
     else if (($player1['score'] - $player2['score']) < 0){
-        $winner = 'Player 2';
+        if ($player2['score'] <= 21) {
+            $winner = 'Player 2';
+        }
+        else{
+            $winner = 'Player 1';
+        }
     }
     else{
         $winner = 'No one';
@@ -113,7 +112,7 @@ if (isset($_GET['submit'])){
 
     echo '<br> <br>';
     echo "PLAYER 2 <br>";
-    echo 'Card 1: ' . ($player2['card1']['face']) . ' ' .($player2['card1']['suit']);
+    echo 'Card 1: ' . ($player2['card1']['face']) . ' ' . ($player2['card1']['suit']);
     echo '<br>';
     echo 'Card 2: ' . ($player2['card2']['face']) . ' ' . ($player2['card2']['suit']);
 //    echo '<br>';
